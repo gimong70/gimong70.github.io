@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>김홍 - 정보시스템 감리 전문가</title>
+    <title>김홍 - 정보관리기술사 & PMP</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -11,13 +11,20 @@
         :root {
             --primary-color: #64ffda;
             --secondary-color: #ccd6f6;
+            --accent-color: #f57c00;
             --text-primary: #ccd6f6;
             --text-secondary: #8892b0;
+            --text-light: #a8b2d1;
             --background-primary: #0a192f;
             --background-secondary: #112240;
             --background-tertiary: #233554;
-            --accent-color: #f57c00;
-            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --background-accent: #1e2a47;
+            --border-color: #233554;
+            --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.4);
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
         }
 
         * {
@@ -31,55 +38,106 @@
         }
 
         body {
-            font-family: var(--font-family);
+            font-family: var(--font-primary);
             background-color: var(--background-primary);
             color: var(--text-primary);
-            line-height: 1.6;
+            line-height: 1.7;
             overflow-x: hidden;
         }
 
         /* Navigation */
-        .nav {
+        .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background-color: rgba(10, 25, 47, 0.85);
+            background: rgba(10, 25, 47, 0.85);
             backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
             z-index: 1000;
-            padding: 0 50px;
-            height: 70px;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .language-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .lang-tab {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-family: var(--font-mono);
+            transition: all 0.3s ease;
+        }
+
+        .lang-tab.active {
+            background: var(--primary-color);
+            color: var(--background-primary);
+            border-color: var(--primary-color);
+        }
+
+        .lang-tab:hover {
+            background: rgba(100, 255, 218, 0.1);
+            color: var(--primary-color);
+        }
+
+        .content-korean {
+            display: block;
+        }
+
+        .content-english {
+            display: none;
         }
 
         .nav-logo {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary-color);
+            text-decoration: none;
         }
 
-        .nav-links {
+        .nav-menu {
             display: flex;
             list-style: none;
             gap: 2rem;
         }
 
-        .nav-links a {
+        .nav-link {
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.9rem;
             font-weight: 500;
             transition: color 0.3s ease;
             position: relative;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
         }
 
-        .nav-links a:hover {
+        .nav-link:hover {
             color: var(--primary-color);
         }
 
-        .nav-links a::after {
+        .nav-link::after {
             content: '';
             position: absolute;
             bottom: -5px;
@@ -90,36 +148,8 @@
             transition: width 0.3s ease;
         }
 
-        .nav-links a:hover::after {
+        .nav-link:hover::after {
             width: 100%;
-        }
-
-        .nav-resume {
-            background-color: transparent;
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-            padding: 8px 16px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .nav-resume:hover {
-            background-color: rgba(100, 255, 218, 0.1);
-        }
-
-        /* Main Content */
-        .main {
-            padding-top: 70px;
-        }
-
-        .section {
-            padding: 100px 0;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding-left: 50px;
-            padding-right: 50px;
         }
 
         /* Hero Section */
@@ -127,13 +157,33 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
+            background: var(--background-primary);
             position: relative;
+            overflow: hidden;
         }
 
-        .hero-content {
-            max-width: 1000px;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            opacity: 0.03;
+            clip-path: polygon(30% 0%, 100% 0%, 100% 100%, 0% 100%);
+        }
+
+        .hero-container {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 50px;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
         }
 
         .hero-greeting {
@@ -141,67 +191,217 @@
             font-size: 1rem;
             font-weight: 400;
             margin-bottom: 1rem;
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            font-family: var(--font-mono);
         }
 
-        .hero-name {
-            font-size: clamp(2.5rem, 8vw, 4rem);
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 1rem;
-            line-height: 1.1;
+            line-height: 1.2;
         }
 
-        .hero-title {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            font-weight: 600;
+        .hero-content .subtitle {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
             color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content .description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--background-secondary);
+            border-radius: 12px;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-card {
+            background: var(--background-secondary);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-heavy);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            background: var(--background-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-medium);
+            overflow: hidden;
+            border: 3px solid var(--primary-color);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .profile-image::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .profile-image:hover::before {
+            opacity: 1;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .profile-name {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-title {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1rem;
             margin-bottom: 1.5rem;
         }
 
-        .hero-description {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin-bottom: 2rem;
-            line-height: 1.6;
+        .profile-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
-        .hero-cta {
-            display: inline-block;
-            background-color: transparent;
-            border: 1px solid var(--primary-color);
+        .badge {
+            background: var(--background-accent);
             color: var(--primary-color);
-            padding: 12px 24px;
-            border-radius: 4px;
-            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
             font-size: 0.9rem;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-        }
-
-        .hero-cta:hover {
-            background-color: rgba(100, 255, 218, 0.1);
-            transform: translateY(-2px);
-        }
-
-        /* About Section */
-        .section-title {
-            font-size: clamp(1.5rem, 3vw, 2rem);
             font-weight: 600;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             position: relative;
         }
 
         .section-title::before {
             content: '01.';
             color: var(--primary-color);
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 1rem;
             margin-right: 1rem;
         }
 
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* About Section */
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -210,225 +410,299 @@
         }
 
         .about-text {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--text-secondary);
-            line-height: 1.7;
+            line-height: 1.8;
         }
 
         .about-text p {
             margin-bottom: 1.5rem;
         }
 
-        .about-text p:last-child {
-            margin-bottom: 0;
+        .about-highlights {
+            background: var(--background-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
         }
 
-        .about-skills {
+        .certificates-section {
             display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .skill-tag {
-            background-color: var(--background-secondary);
-            color: var(--primary-color);
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            border: 1px solid var(--background-tertiary);
-        }
-
-        .about-image {
-            position: relative;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-
-        .image-wrapper {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            background-color: var(--background-secondary);
-            border: 2px solid var(--primary-color);
-        }
-
-        .image-wrapper::before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            right: -20px;
-            bottom: -20px;
-            border: 2px solid var(--primary-color);
-            border-radius: 8px;
-            z-index: -1;
-        }
-
-        .profile-image {
-            width: 100%;
-            height: auto;
-            display: block;
-            filter: grayscale(100%) contrast(1.2);
-            transition: filter 0.3s ease;
-        }
-
-        .image-wrapper:hover .profile-image {
-            filter: grayscale(0%) contrast(1);
-        }
-
-        /* Experience Section */
-        .experience-tabs {
-            display: flex;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--background-tertiary);
-        }
-
-        .tab-button {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            padding: 1rem 1.5rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border-bottom: 2px solid transparent;
-        }
-
-        .tab-button.active {
-            color: var(--primary-color);
-            border-bottom-color: var(--primary-color);
-        }
-
-        .tab-button:hover {
-            color: var(--primary-color);
-            background-color: rgba(100, 255, 218, 0.1);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .experience-item {
-            margin-bottom: 2rem;
-        }
-
-        .experience-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .experience-company {
-            color: var(--primary-color);
-            font-size: 1rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-        }
-
-        .experience-period {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-            margin-bottom: 1rem;
-        }
-
-        .experience-description {
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        .experience-skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .experience-skill {
-            background-color: var(--background-secondary);
-            color: var(--text-primary);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-        }
-
-        /* Projects Section */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            flex-direction: column;
             gap: 2rem;
             margin-top: 2rem;
         }
 
-        .project-card {
-            background-color: var(--background-secondary);
-            border-radius: 8px;
-            padding: 2rem;
-            transition: transform 0.3s ease;
-            border: 1px solid var(--background-tertiary);
+        .certificate-item {
+            background: var(--background-tertiary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        .project-card:hover {
+        .certificate-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
+        }
+
+        .certificate-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .certificate-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .certificate-item:hover .certificate-image {
+            transform: scale(1.05);
+        }
+
+        .certificate-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .certificate-content p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--background-tertiary);
+            border-radius: 12px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .highlight-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .highlight-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-content p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: var(--background-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-medium);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+
+        .skill-category:hover {
             transform: translateY(-5px);
         }
 
-        .project-header {
+        .skill-category h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
+            align-items: center;
         }
 
-        .project-title {
+        .skill-category h3::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+            margin-right: 1rem;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .skill-tag {
+            background: var(--background-tertiary);
+            color: var(--text-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            font-family: var(--font-mono);
+        }
+
+        .skill-tag:hover {
+            background: var(--primary-color);
+            color: var(--background-primary);
+            transform: translateY(-2px);
+        }
+
+        /* Experience Section */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            background: var(--background-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-medium);
+            border: 1px solid var(--border-color);
+            width: 45%;
+            position: relative;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 0;
+            height: 0;
+            border: 15px solid transparent;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            right: -30px;
+            border-left-color: var(--background-secondary);
+            transform: translateY(-50%);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            left: -30px;
+            border-right-color: var(--background-secondary);
+            transform: translateY(-50%);
+        }
+
+        .timeline-year {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-color);
+            color: var(--background-primary);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 2;
+            box-shadow: var(--shadow-medium);
+            font-family: var(--font-mono);
+        }
+
+        .timeline-title {
             font-size: 1.2rem;
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
 
-        .project-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .project-link {
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .project-link:hover {
+        .timeline-company {
             color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 1rem;
         }
 
-        .project-description {
+        .timeline-description {
             color: var(--text-secondary);
             line-height: 1.6;
             margin-bottom: 1rem;
         }
 
-        .project-skills {
+        .timeline-skills {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
         }
 
-        .project-skill {
-            background-color: var(--background-tertiary);
-            color: var(--text-primary);
-            padding: 4px 8px;
-            border-radius: 4px;
+        .timeline-skill {
+            background: var(--background-tertiary);
+            color: var(--text-secondary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
             font-size: 0.8rem;
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            font-family: var(--font-mono);
         }
 
         /* Contact Section */
@@ -438,44 +712,69 @@
             margin: 0 auto;
         }
 
-        .contact-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-        }
-
-        .contact-description {
-            font-size: 1.1rem;
+        .contact-text {
+            font-size: 1.2rem;
             color: var(--text-secondary);
             margin-bottom: 2rem;
             line-height: 1.6;
         }
 
-        .contact-cta {
-            display: inline-block;
-            background-color: transparent;
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-            padding: 16px 32px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
-        .contact-cta:hover {
-            background-color: rgba(100, 255, 218, 0.1);
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-primary:hover {
+            background: rgba(100, 255, 218, 0.1);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .btn-secondary {
+            background: var(--background-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: var(--background-primary);
             transform: translateY(-2px);
         }
 
         /* Footer */
         .footer {
-            text-align: center;
-            padding: 2rem 0;
-            border-top: 1px solid var(--background-tertiary);
+            background: var(--background-primary);
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
         .footer-links {
@@ -497,21 +796,19 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .nav {
-                padding: 0 20px;
-            }
-
-            .nav-links {
+            .nav-menu {
                 display: none;
             }
 
-            .section {
-                padding-left: 20px;
-                padding-right: 20px;
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
             }
 
-            .hero-content {
-                padding: 0 20px;
+            .hero-stats {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
 
             .about-content {
@@ -519,23 +816,36 @@
                 gap: 2rem;
             }
 
-            .experience-tabs {
-                flex-direction: column;
-            }
-
-            .tab-button {
-                text-align: left;
-                border-bottom: none;
-                border-left: 2px solid transparent;
-            }
-
-            .tab-button.active {
-                border-left-color: var(--primary-color);
-                border-bottom-color: transparent;
-            }
-
-            .projects-grid {
+            .skills-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                flex-direction: column !important;
+                align-items: flex-start;
+                padding-left: 3rem;
+            }
+
+            .timeline-content {
+                width: 100%;
+            }
+
+            .timeline-content::before {
+                display: none;
+            }
+
+            .timeline-year {
+                left: 20px;
+                transform: translateX(-50%);
+            }
+
+            .contact-buttons {
+                flex-direction: column;
+                align-items: center;
             }
 
             .footer-links {
@@ -561,246 +871,448 @@
         }
 
         /* Scroll indicator */
-        .scroll-indicator {
+        .scroll-progress {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 3px;
-            background-color: var(--background-tertiary);
+            background: var(--background-tertiary);
             z-index: 1001;
         }
 
-        .scroll-progress {
+        .scroll-progress-bar {
             height: 100%;
-            background-color: var(--primary-color);
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
             width: 0%;
             transition: width 0.1s ease;
         }
     </style>
 </head>
 <body>
-    <!-- Scroll Indicator -->
-    <div class="scroll-indicator">
-        <div class="scroll-progress" id="scrollProgress"></div>
+    <!-- Scroll Progress -->
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar" id="scrollProgress"></div>
     </div>
 
     <!-- Navigation -->
-    <nav class="nav">
-        <div class="nav-logo">김홍</div>
-        <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <a href="#contact" class="nav-resume">연락하기</a>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="#" class="nav-logo">김홍</a>
+                <div class="language-tabs">
+                    <button class="lang-tab active" onclick="switchLanguage('korean')">한글</button>
+                    <button class="lang-tab" onclick="switchLanguage('english')">English</button>
+                </div>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#about" class="nav-link">소개</a></li>
+                <li><a href="#skills" class="nav-link">전문역량</a></li>
+                <li><a href="#experience" class="nav-link">경력</a></li>
+                <li><a href="#contact" class="nav-link">연락</a></li>
+            </ul>
+        </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="main">
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <div class="hero-greeting fade-in-up">안녕하세요, 저는</div>
-                <h1 class="hero-name fade-in-up">김홍입니다.</h1>
-                <h2 class="hero-title fade-in-up">정보시스템 감리 전문가</h2>
-                <p class="hero-description fade-in-up">
-                    정보시스템의 품질과 안정성을 확보하기 위해 체계적인 프로젝트 관리와 통제 역량을 갖춘 수석감리원입니다. 
-                    PMP 자격을 바탕으로 글로벌 표준 기반의 프로젝트 관리 체계를 실제 현장에 적용하여 
-                    투명하고 객관적인 IT 거버넌스 수준 향상에 기여하고 있습니다.
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <!-- Korean Content -->
+            <div class="hero-content content-korean">
+                <div class="hero-greeting">안녕하세요, 저는</div>
+                <h1>김홍입니다.</h1>
+                <div class="subtitle">정보관리기술사 & PMP</div>
+                <p class="description">
+                    정보시스템의 품질과 안정성을 확보하기 위해 끊임없이 전문성을 발전시켜 온 
+                    정보관리기술사 겸 PMP입니다. 20여 년간 IT 시스템 구축과 운영, 프로젝트 관리, 
+                    감리 및 컨설팅 분야에서 다양한 경험을 쌓으며, 체계적 관리와 실질적 성과 창출을 
+                    동시에 달성해 왔습니다.
                 </p>
-                <a href="#about" class="hero-cta">더 알아보기</a>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="section">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>
-                        저는 정보시스템 구축 및 운영 프로젝트를 다수 수행하며, 사업관리(PM)와 감리 보조 업무를 통해 
-                        프로젝트 품질 확보 절차를 실무적으로 경험했습니다. 이를 기반으로 PMP 자격을 취득하여, 
-                        프로젝트 관리의 글로벌 표준을 국내 정보시스템 감리 프로세스에 접목할 수 있는 역량을 갖추었습니다.
-                    </p>
-                    <p>
-                        PMBOK Guide 7판의 핵심 원칙(12 PM Principles)과 성과영역(8 Performance Domains)을 기반으로 
-                        프로젝트 기획부터 실행, 종료에 이르는 전 과정을 관리할 수 있는 능력을 갖추었습니다. 
-                        특히 리스크 분석, 품질 보증, 일정/원가 통제, 이해관계자 커뮤니케이션 등의 분야에서 강점을 보유하고 있습니다.
-                    </p>
-                    <p>
-                        감리 수행 시에는 단순한 '진단'이 아닌, 문제의 근본 원인 분석과 개선 실행방안 제시를 통해 
-                        고객 조직의 IT 거버넌스 수준을 향상시키는 데 주력하고 있습니다.
-                    </p>
-                    <div class="about-skills">
-                        <span class="skill-tag">PMP</span>
-                        <span class="skill-tag">PMBOK Guide</span>
-                        <span class="skill-tag">프로젝트 관리</span>
-                        <span class="skill-tag">정보시스템 감리</span>
-                        <span class="skill-tag">IT 거버넌스</span>
-                        <span class="skill-tag">리스크 분석</span>
-                        <span class="skill-tag">품질 보증</span>
-                        <span class="skill-tag">Agile</span>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">20+</div>
+                        <div class="stat-label">년 경력</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">30+</div>
+                        <div class="stat-label">프로젝트</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4+</div>
+                        <div class="stat-label">전문자격</div>
                     </div>
                 </div>
-                <div class="about-image">
-                    <div class="image-wrapper">
-                        <img src="https://via.placeholder.com/300x400/64ffda/0a192f?text=김홍" alt="김홍 프로필" class="profile-image">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Experience Section -->
-        <section id="experience" class="section">
-            <h2 class="section-title">Experience</h2>
-            <div class="experience-tabs">
-                <button class="tab-button active" data-tab="current">현재</button>
-                <button class="tab-button" data-tab="past">과거 경력</button>
-                <button class="tab-button" data-tab="education">교육 및 자격</button>
             </div>
             
-            <div id="current" class="tab-content active">
-                <div class="experience-item">
-                    <h3 class="experience-title">수석감리원</h3>
-                    <div class="experience-company">정보시스템 감리 전문기관</div>
-                    <div class="experience-period">2020 — 현재</div>
-                    <p class="experience-description">
-                        정보시스템의 품질과 안정성을 확보하기 위해 체계적인 프로젝트 관리와 통제 역량을 발휘하고 있습니다. 
-                        PMBOK Guide 7판의 핵심 원칙과 성과영역을 기반으로 프로젝트 전 과정을 관리하며, 
-                        투명성과 객관성을 확보하는 것을 가장 중요한 가치로 삼고 있습니다.
-                    </p>
-                    <div class="experience-skills">
-                        <span class="experience-skill">프로젝트 관리</span>
-                        <span class="experience-skill">품질 보증</span>
-                        <span class="experience-skill">리스크 분석</span>
-                        <span class="experience-skill">커뮤니케이션</span>
-                        <span class="experience-skill">IT 거버넌스</span>
-                    </div>
-                </div>
-            </div>
-
-            <div id="past" class="tab-content">
-                <div class="experience-item">
-                    <h3 class="experience-title">프로젝트 매니저</h3>
-                    <div class="experience-company">정보시스템 구축 및 운영 프로젝트</div>
-                    <div class="experience-period">2015 — 2020</div>
-                    <p class="experience-description">
-                        다양한 정보시스템 구축 및 운영 프로젝트에서 사업관리(PM)와 감리 보조 업무를 담당했습니다. 
-                        프로젝트 품질 확보 절차를 실무적으로 경험하며, 체계적인 관리 방법론을 습득했습니다.
-                    </p>
-                    <div class="experience-skills">
-                        <span class="experience-skill">사업관리</span>
-                        <span class="experience-skill">감리 보조</span>
-                        <span class="experience-skill">품질 관리</span>
-                        <span class="experience-skill">프로세스 개선</span>
-                    </div>
-                </div>
-            </div>
-
-            <div id="education" class="tab-content">
-                <div class="experience-item">
-                    <h3 class="experience-title">PMP (Project Management Professional)</h3>
-                    <div class="experience-company">PMI (Project Management Institute)</div>
-                    <div class="experience-period">2020</div>
-                    <p class="experience-description">
-                        글로벌 표준 기반의 프로젝트 관리 체계와 프로세스를 심층적으로 학습하고, 
-                        이를 실제 정보시스템 구축 및 운영 현장에 적용할 수 있는 역량을 인정받았습니다.
-                    </p>
-                    <div class="experience-skills">
-                        <span class="experience-skill">PMBOK Guide</span>
-                        <span class="experience-skill">프로젝트 관리</span>
-                        <span class="experience-skill">글로벌 표준</span>
-                        <span class="experience-skill">Tailoring</span>
-                        <span class="experience-skill">Agile 평가</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects" class="section">
-            <h2 class="section-title">Featured Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-header">
-                        <h3 class="project-title">정보시스템 감리 표준화 프로젝트</h3>
-                        <div class="project-links">
-                            <a href="#" class="project-link">📋</a>
-                        </div>
-                    </div>
-                    <p class="project-description">
-                        PMBOK Guide 7판의 핵심 원칙과 성과영역을 기반으로 정보시스템 감리 프로세스를 표준화하고, 
-                        체계적인 품질 관리 체계를 구축한 프로젝트입니다.
-                    </p>
-                    <div class="project-skills">
-                        <span class="project-skill">PMBOK Guide</span>
-                        <span class="project-skill">프로세스 표준화</span>
-                        <span class="project-skill">품질 관리</span>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-header">
-                        <h3 class="project-title">IT 거버넌스 개선 컨설팅</h3>
-                        <div class="project-links">
-                            <a href="#" class="project-link">📊</a>
-                        </div>
-                    </div>
-                    <p class="project-description">
-                        단순한 진단을 넘어 문제의 근본 원인 분석과 개선 실행방안을 제시하여 
-                        고객 조직의 IT 거버넌스 수준을 향상시킨 컨설팅 프로젝트입니다.
-                    </p>
-                    <div class="project-skills">
-                        <span class="project-skill">IT 거버넌스</span>
-                        <span class="project-skill">컨설팅</span>
-                        <span class="project-skill">개선 방안</span>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-header">
-                        <h3 class="project-title">Agile 프로젝트 평가 체계</h3>
-                        <div class="project-links">
-                            <a href="#" class="project-link">🔄</a>
-                        </div>
-                    </div>
-                    <p class="project-description">
-                        감리 대상 시스템의 복잡성과 리스크를 고려한 맞춤형 관리체계(Tailoring) 설계 및 
-                        Agile 프로젝트 평가에 특화된 체계를 개발한 프로젝트입니다.
-                    </p>
-                    <div class="project-skills">
-                        <span class="project-skill">Agile</span>
-                        <span class="project-skill">Tailoring</span>
-                        <span class="project-skill">리스크 관리</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="section">
-            <div class="contact-content">
-                <h2 class="contact-title">Get In Touch</h2>
-                <p class="contact-description">
-                    앞으로는 정보시스템 감리인으로서 프로젝트의 성공적 수행과 IT 거버넌스 수준 제고를 
-                    동시에 달성할 수 있는 전문 컨설턴트로 성장하고자 합니다. 
-                    함께 소통하고 협력할 기회를 기다리고 있습니다.
+            <!-- English Content -->
+            <div class="hero-content content-english">
+                <div class="hero-greeting">Hi, my name is</div>
+                <h1>Hong Kim.</h1>
+                <div class="subtitle">Information Management Engineer & PMP</div>
+                <p class="description">
+                    I am an Information Management Engineer and PMP who has continuously developed expertise 
+                    to ensure the quality and stability of information systems. With over 20 years of experience 
+                    in IT system construction, operation, project management, supervision, and consulting, 
+                    I have achieved both systematic management and practical results.
                 </p>
-                <a href="mailto:contact@example.com" class="contact-cta">연락하기</a>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">20+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">30+</div>
+                        <div class="stat-label">Projects</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4+</div>
+                        <div class="stat-label">Certifications</div>
+                    </div>
+                </div>
             </div>
-        </section>
-    </main>
+            
+            <div class="hero-image">
+                <div class="profile-card">
+                    <div class="profile-image">
+                        <img src="사진.jpg" alt="김홍 프로필" />
+                    </div>
+                    <div class="profile-name content-korean">김홍</div>
+                    <div class="profile-name content-english">Hong Kim</div>
+                    <div class="profile-title content-korean">정보관리기술사 & PMP</div>
+                    <div class="profile-title content-english">Information Management Engineer & PMP</div>
+                    <div class="profile-badges">
+                        <span class="badge content-korean">정보관리기술사</span>
+                        <span class="badge content-english">Information Management Engineer</span>
+                        <span class="badge">PMP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title content-korean">About Me</h2>
+                <h2 class="section-title content-english">About Me</h2>
+                <p class="section-subtitle content-korean">
+                    전문성과 경험을 바탕으로 IT 프로젝트의 성공을 이끄는 전문가
+                </p>
+                <p class="section-subtitle content-english">
+                    A professional who leads IT project success based on expertise and experience
+                </p>
+            </div>
+            <div class="about-content">
+                <!-- Korean Content -->
+                <div class="about-text content-korean">
+                    <p>
+                        정보관리기술사로서 정보시스템의 기획·설계·구축·운영 전반에 대한 기술적 통찰을 보유하고 있으며, 
+                        PMP 자격을 통해 글로벌 표준의 프로젝트 관리 체계(PMBOK Guide 7판)를 숙지했습니다.
+                    </p>
+                    <p>
+                        특히, 12 PM 원칙과 8개의 성과영역을 기반으로 한 프로젝트 리스크 관리, 품질관리, 
+                        이해관계자 커뮤니케이션, 애자일(Agile) 환경 대응 역량을 실무에 적용해왔습니다.
+                    </p>
+                    <p>
+                        이러한 경험은 감리 수행 시 객관적 검증과 실질적 개선 제안을 병행하는 데에 강점으로 작용합니다.
+                    </p>
+                    <p>
+                        항상 "프로젝트 성공은 통제보다 협력에서 비롯된다"는 신념으로, 참여 조직 간의 원활한 소통과 
+                        객관적 감리를 통해 성과 중심의 감리 활동을 지향하고 있습니다.
+                    </p>
+                </div>
+                
+                <!-- English Content -->
+                <div class="about-text content-english">
+                    <p>
+                        As an Information Management Engineer, I possess technical insights into the entire process 
+                        of information system planning, design, construction, and operation. Through PMP certification, 
+                        I have mastered the global standard project management system (PMBOK Guide 7th Edition).
+                    </p>
+                    <p>
+                        In particular, I have applied practical capabilities in project risk management, quality management, 
+                        stakeholder communication, and Agile environment response based on 12 PM principles and 8 performance domains.
+                    </p>
+                    <p>
+                        This experience serves as a strength in performing objective verification and practical improvement 
+                        suggestions during supervision activities.
+                    </p>
+                    <p>
+                        I always believe that "project success comes from cooperation rather than control," and I aim for 
+                        performance-oriented supervision activities through smooth communication between participating 
+                        organizations and objective supervision.
+                    </p>
+                </div>
+                <div class="about-highlights">
+                    <!-- Korean Highlights -->
+                    <div class="highlight-item content-korean">
+                        <div class="highlight-icon">🎯</div>
+                        <div class="highlight-content">
+                            <h3>전문성</h3>
+                            <p>정보관리기술사 & PMP 자격을 통한 이중 전문성</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item content-korean">
+                        <div class="highlight-icon">📊</div>
+                        <div class="highlight-content">
+                            <h3>경험</h3>
+                            <p>20여 년간 다양한 IT 프로젝트 수행 경험</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item content-korean">
+                        <div class="highlight-icon">🔧</div>
+                        <div class="highlight-content">
+                            <h3>실무역량</h3>
+                            <p>PMBOK Guide 7판 기반 체계적 프로젝트 관리</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item content-korean">
+                        <div class="highlight-icon">🤝</div>
+                        <div class="highlight-content">
+                            <h3>협력</h3>
+                            <p>협력 중심의 성과 창출 접근법</p>
+                        </div>
+                    </div>
+                    
+                    <!-- English Highlights -->
+                    <div class="highlight-item content-english">
+                        <div class="highlight-icon">🎯</div>
+                        <div class="highlight-content">
+                            <h3>Expertise</h3>
+                            <p>Dual expertise through Information Management Engineer & PMP certifications</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item content-english">
+                        <div class="highlight-icon">📊</div>
+                        <div class="highlight-content">
+                            <h3>Experience</h3>
+                            <p>Over 20 years of diverse IT project execution experience</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item content-english">
+                        <div class="highlight-icon">🔧</div>
+                        <div class="highlight-content">
+                            <h3>Practical Skills</h3>
+                            <p>Systematic project management based on PMBOK Guide 7th Edition</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item content-english">
+                        <div class="highlight-icon">🤝</div>
+                        <div class="highlight-content">
+                            <h3>Collaboration</h3>
+                            <p>Cooperation-centered approach to achieving results</p>
+                        </div>
+                    </div>
+                    
+                    <div class="certificates-section">
+                        <h3 class="content-korean" style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.2rem;">자격사항</h3>
+                        <h3 class="content-english" style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.2rem;">Certifications</h3>
+                        
+                        <!-- Korean Certificates -->
+                        <div class="certificate-item content-korean">
+                            <img src="정보관리기술사자격증.jpg" alt="정보관리기술사 자격증" class="certificate-image">
+                            <div class="certificate-content">
+                                <h3>정보관리기술사</h3>
+                                <p>정보시스템의 기획·설계·구축·운영 전반에 대한 기술적 통찰을 보유한 전문자격</p>
+                            </div>
+                        </div>
+                        <div class="certificate-item content-korean">
+                            <a href="PMP수료증.pdf" target="_blank" style="text-decoration: none; color: inherit;">
+                                <img src="PMP수료증.pdf" alt="PMP 수료증" class="certificate-image">
+                                <div class="certificate-content">
+                                    <h3>PMP (Project Management Professional)</h3>
+                                    <p>글로벌 표준의 프로젝트 관리 체계와 프로세스를 숙지한 국제 자격</p>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <!-- English Certificates -->
+                        <div class="certificate-item content-english">
+                            <img src="정보관리기술사자격증.jpg" alt="Information Management Engineer Certificate" class="certificate-image">
+                            <div class="certificate-content">
+                                <h3>Information Management Engineer</h3>
+                                <p>Professional certification with technical insights into the entire process of information system planning, design, construction, and operation</p>
+                            </div>
+                        </div>
+                        <div class="certificate-item content-english">
+                            <a href="PMP수료증.pdf" target="_blank" style="text-decoration: none; color: inherit;">
+                                <img src="PMP수료증.pdf" alt="PMP Certificate" class="certificate-image">
+                                <div class="certificate-content">
+                                    <h3>PMP (Project Management Professional)</h3>
+                                    <p>International certification with mastery of global standard project management systems and processes</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section" style="background-color: var(--background-secondary);">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">전문역량</h2>
+                <p class="section-subtitle">
+                    체계적 관리와 기술적 통찰을 바탕으로 한 종합적 역량
+                </p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>프로젝트 관리</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">PMBOK Guide 7판</span>
+                        <span class="skill-tag">12 PM 원칙</span>
+                        <span class="skill-tag">8개 성과영역</span>
+                        <span class="skill-tag">리스크 관리</span>
+                        <span class="skill-tag">품질관리</span>
+                        <span class="skill-tag">이해관계자 커뮤니케이션</span>
+                        <span class="skill-tag">Agile 방법론</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>정보시스템 감리</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">기술감리</span>
+                        <span class="skill-tag">품질보증</span>
+                        <span class="skill-tag">사업관리</span>
+                        <span class="skill-tag">PMO 운영</span>
+                        <span class="skill-tag">객관적 검증</span>
+                        <span class="skill-tag">개선 제안</span>
+                        <span class="skill-tag">IT 거버넌스</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>컨설팅</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">ISMS 진단</span>
+                        <span class="skill-tag">IT 거버넌스 진단</span>
+                        <span class="skill-tag">성숙도 평가</span>
+                        <span class="skill-tag">프로세스 개선</span>
+                        <span class="skill-tag">디지털 전환</span>
+                        <span class="skill-tag">체계 정립</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">경력 및 업무 성과</h2>
+                <p class="section-subtitle">
+                    대규모 프로젝트에서의 성공적인 경험과 실질적 성과
+                </p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2024</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">수석감리원</h3>
+                        <div class="timeline-company">정보시스템 감리 전문기관</div>
+                        <p class="timeline-description">
+                            대규모 정보시스템 구축 프로젝트에서 PMO 및 기술감리 업무를 수행하며, 
+                            사업 관리 및 품질보증 체계를 정립하고 프로젝트 리스크를 사전에 차단한 경험이 있습니다.
+                        </p>
+                        <div class="timeline-skills">
+                            <span class="timeline-skill">PMO 운영</span>
+                            <span class="timeline-skill">기술감리</span>
+                            <span class="timeline-skill">품질보증</span>
+                            <span class="timeline-skill">리스크 관리</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2023</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">IT 거버넌스 컨설팅</h3>
+                        <div class="timeline-company">공공·민간 조직</div>
+                        <p class="timeline-description">
+                            정보보호 관리체계(ISMS) 및 IT 거버넌스 진단 컨설팅을 수행하여 
+                            공공·민간 조직의 IT 운영 성숙도를 향상시켰습니다.
+                        </p>
+                        <div class="timeline-skills">
+                            <span class="timeline-skill">ISMS 진단</span>
+                            <span class="timeline-skill">IT 거버넌스</span>
+                            <span class="timeline-skill">성숙도 평가</span>
+                            <span class="timeline-skill">컨설팅</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2022</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">프로젝트 매니저</h3>
+                        <div class="timeline-company">대규모 정보시스템 구축</div>
+                        <p class="timeline-description">
+                            복잡한 이해관계자 환경에서 체계적인 프로젝트 관리를 통해 
+                            성공적인 프로젝트 완료를 이끌어냈습니다.
+                        </p>
+                        <div class="timeline-skills">
+                            <span class="timeline-skill">프로젝트 관리</span>
+                            <span class="timeline-skill">이해관계자 관리</span>
+                            <span class="timeline-skill">커뮤니케이션</span>
+                            <span class="timeline-skill">협력</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2020</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">PMP 자격 취득</h3>
+                        <div class="timeline-company">PMI (Project Management Institute)</div>
+                        <p class="timeline-description">
+                            글로벌 표준의 프로젝트 관리 체계를 습득하고, 
+                            이를 실무에 적용할 수 있는 역량을 인정받았습니다.
+                        </p>
+                        <div class="timeline-skills">
+                            <span class="timeline-skill">PMP</span>
+                            <span class="timeline-skill">PMBOK Guide</span>
+                            <span class="timeline-skill">글로벌 표준</span>
+                            <span class="timeline-skill">프로젝트 관리</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section" style="background-color: var(--background-secondary);">
+        <div class="section-container">
+            <div class="contact-content">
+                <h2 class="section-title">비전 및 목표</h2>
+                <p class="contact-text">
+                    앞으로는 정보시스템 감리인으로서 IT 프로젝트 품질 향상과 조직의 디지털 거버넌스 고도화를 주도하는 역할을 수행하고자 합니다.
+                    기술사로서의 깊은 기술 이해와 PMP로서의 체계적 관리능력을 융합하여, 감리 현장에서 신뢰받는 전문가로 성장하고, 
+                    공공 및 민간의 IT 혁신과 안전한 디지털 전환에 기여하겠습니다.
+                </p>
+                <div class="contact-buttons">
+                    <a href="mailto:contact@example.com" class="btn btn-primary">
+                        📧 연락하기
+                    </a>
+                    <a href="#about" class="btn btn-secondary">
+                        📄 더 알아보기
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-links">
-            <a href="mailto:contact@example.com" class="footer-link">Email</a>
-            <a href="#" class="footer-link">LinkedIn</a>
-            <a href="#" class="footer-link">GitHub</a>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="mailto:contact@example.com" class="footer-link">Email</a>
+                <a href="#" class="footer-link">LinkedIn</a>
+                <a href="#" class="footer-link">GitHub</a>
+            </div>
+            <p>&copy; 2024 김홍. All rights reserved.</p>
         </div>
-        <p>&copy; 2024 김홍. All rights reserved.</p>
     </footer>
 
     <script>
@@ -818,30 +1330,24 @@
             });
         });
 
-        // Tab functionality
-        const tabButtons = document.querySelectorAll('.tab-button');
-        const tabContents = document.querySelectorAll('.tab-content');
-
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const targetTab = button.getAttribute('data-tab');
-                
-                // Remove active class from all buttons and contents
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                tabContents.forEach(content => content.classList.remove('active'));
-                
-                // Add active class to clicked button and corresponding content
-                button.classList.add('active');
-                document.getElementById(targetTab).classList.add('active');
-            });
-        });
-
         // Scroll progress indicator
         window.addEventListener('scroll', () => {
             const scrollTop = window.pageYOffset;
             const docHeight = document.body.scrollHeight - window.innerHeight;
             const scrollPercent = (scrollTop / docHeight) * 100;
             document.getElementById('scrollProgress').style.width = scrollPercent + '%';
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(10, 25, 47, 0.95)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
+            } else {
+                navbar.style.background = 'rgba(10, 25, 47, 0.85)';
+                navbar.style.boxShadow = 'none';
+            }
         });
 
         // Intersection Observer for animations
@@ -859,19 +1365,77 @@
         }, observerOptions);
 
         // Observe elements for animation
-        document.querySelectorAll('.section-title, .about-text, .project-card, .experience-item').forEach(el => {
+        document.querySelectorAll('.section-title, .about-text, .skill-category, .timeline-item, .highlight-item').forEach(el => {
             observer.observe(el);
         });
 
-        // Navbar background on scroll
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('.nav');
-            if (window.scrollY > 50) {
-                nav.style.backgroundColor = 'rgba(10, 25, 47, 0.95)';
+        // Language switching function
+        function switchLanguage(lang) {
+            // Update active tab
+            document.querySelectorAll('.lang-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[onclick="switchLanguage('${lang}')"]`).classList.add('active');
+            
+            // Update navigation menu
+            const navLinks = document.querySelectorAll('.nav-link');
+            if (lang === 'korean') {
+                navLinks[0].textContent = '소개';
+                navLinks[1].textContent = '전문역량';
+                navLinks[2].textContent = '경력';
+                navLinks[3].textContent = '연락';
             } else {
-                nav.style.backgroundColor = 'rgba(10, 25, 47, 0.85)';
+                navLinks[0].textContent = 'About';
+                navLinks[1].textContent = 'Skills';
+                navLinks[2].textContent = 'Experience';
+                navLinks[3].textContent = 'Contact';
             }
-        });
+            
+            // Show/hide content
+            document.querySelectorAll('.content-korean').forEach(el => {
+                el.style.display = lang === 'korean' ? 'block' : 'none';
+            });
+            document.querySelectorAll('.content-english').forEach(el => {
+                el.style.display = lang === 'english' ? 'block' : 'none';
+            });
+        }
+
+        // Counter animation for stats
+        function animateCounter(element, target, duration = 2000) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            
+            function updateCounter() {
+                start += increment;
+                if (start < target) {
+                    element.textContent = Math.floor(start) + '+';
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.textContent = target + '+';
+                }
+            }
+            
+            updateCounter();
+        }
+
+        // Trigger counter animation when stats section is visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = document.querySelectorAll('.stat-number');
+                    statNumbers.forEach((stat, index) => {
+                        const targets = [20, 30, 4];
+                        animateCounter(stat, targets[index]);
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const heroStats = document.querySelector('.hero-stats');
+        if (heroStats) {
+            statsObserver.observe(heroStats);
+        }
     </script>
 </body>
 </html>
